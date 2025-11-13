@@ -30,7 +30,7 @@ func (h *scenarioHandlerImpl) Initialize() {
 		scenarioGroup.DELETE("/:id", h.controller.DeleteScenario)
 		scenarioGroup.GET("", h.controller.GetScenarios)
 		scenarioGroup.GET("/:id", h.controller.GetScenarioByID)
-		scenarioGroup.GET("/costs/:id", h.controller.GetCostFromScenario)
-		scenarioGroup.GET("/contributors/:id", h.controller.GetContributorFromScenario)
+		scenarioGroup.GET("/:id/costs", h.controller.GetCostFromScenario)
+		scenarioGroup.GET("/:id/contributors", h.controller.GetContributorFromScenario)
 	}
 }

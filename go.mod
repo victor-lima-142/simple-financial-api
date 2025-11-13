@@ -7,6 +7,8 @@ require (
 	go.mongodb.org/mongo-driver/v2 v2.4.0
 )
 
+require github.com/joho/godotenv v1.5.1 // indirect
+
 require (
 	github.com/bytedance/gopkg v0.1.3 // indirect
 	github.com/bytedance/sonic v1.14.2 // indirect
