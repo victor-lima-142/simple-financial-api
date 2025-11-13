@@ -12,11 +12,11 @@ var (
 	ScenarioCollection    *mongo.Collection
 )
 
-func InitMongoDB(uri, dbName string) (*mongo.Client, error) {
+func InitMongoDB(uri, dbName string) error {
 	clientOptions := options.Client().ApplyURI(uri)
 	client, err := mongo.Connect(clientOptions)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	db := client.Database(dbName)
@@ -25,5 +25,5 @@ func InitMongoDB(uri, dbName string) (*mongo.Client, error) {
 	ContributorCollection = db.Collection("contributors")
 	ScenarioCollection = db.Collection("scenarios")
 	InitRepositories()
-	return client, nil
+	return nil
 }

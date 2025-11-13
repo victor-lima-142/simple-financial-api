@@ -6,22 +6,24 @@ import (
 )
 
 type ScenarioHandler interface {
-	Initialize(engine *gin.Engine)
+	Initialize()
 }
 
 type scenarioHandlerImpl struct {
 	controller controllers.ScenarioController
+	engine     *gin.Engine
 }
 
-func NewScenarioHandler() ScenarioHandler {
+func NewScenarioHandler(engine *gin.Engine) ScenarioHandler {
 	controller := controllers.NewScenarioController()
 	return &scenarioHandlerImpl{
 		controller: controller,
+		engine:     engine,
 	}
 }
 
-func (h *scenarioHandlerImpl) Initialize(engine *gin.Engine) {
-	scenarioGroup := engine.Group("/scenarios")
+func (h *scenarioHandlerImpl) Initialize() {
+	scenarioGroup := h.engine.Group("/scenarios")
 	{
 		scenarioGroup.POST("", h.controller.CreateScenario)
 		scenarioGroup.PUT("/:id", h.controller.UpdateScenario)

@@ -6,22 +6,24 @@ import (
 )
 
 type ContributorHandler interface {
-	Initialize(engine *gin.Engine)
+	Initialize()
 }
 
 type contributorHandlerImpl struct {
 	controller controllers.ContributorController
+	engine     *gin.Engine
 }
 
-func NewContributorHandler() ContributorHandler {
+func NewContributorHandler(engine *gin.Engine) ContributorHandler {
 	controller := controllers.NewContributorController()
 	return &contributorHandlerImpl{
 		controller: controller,
+		engine:     engine,
 	}
 }
 
-func (h *contributorHandlerImpl) Initialize(engine *gin.Engine) {
-	contributorGroup := engine.Group("/contributors")
+func (h *contributorHandlerImpl) Initialize() {
+	contributorGroup := h.engine.Group("/contributors")
 	{
 		contributorGroup.POST("", h.controller.CreateContributor)
 		contributorGroup.PUT("/:id", h.controller.UpdateContributor)

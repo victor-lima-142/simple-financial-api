@@ -6,22 +6,24 @@ import (
 )
 
 type ProjectionHandler interface {
-	Initialize(engine *gin.Engine)
+	Initialize()
 }
 
 type projectionHandlerImpl struct {
 	controller controllers.ProjectionController
+	engine     *gin.Engine
 }
 
-func NewProjectionHandler() ProjectionHandler {
+func NewProjectionHandler(engine *gin.Engine) ProjectionHandler {
 	controller := controllers.NewProjectionController()
 	return &projectionHandlerImpl{
 		controller: controller,
+		engine:     engine,
 	}
 }
 
-func (h *projectionHandlerImpl) Initialize(engine *gin.Engine) {
-	projectionGroup := engine.Group("/projections")
+func (h *projectionHandlerImpl) Initialize() {
+	projectionGroup := h.engine.Group("/projections")
 	{
 		projectionGroup.POST("", h.controller.CreateProjection)
 		projectionGroup.PUT("/:id", h.controller.UpdateProjection)

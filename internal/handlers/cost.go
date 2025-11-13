@@ -6,22 +6,24 @@ import (
 )
 
 type CostHandler interface {
-	Initialize(engine *gin.Engine)
+	Initialize()
 }
 
 type costHandlerImpl struct {
 	controller controllers.CostController
+	engine     *gin.Engine
 }
 
-func NewCostHandler() CostHandler {
+func NewCostHandler(engine *gin.Engine) CostHandler {
 	controller := controllers.NewCostController()
 	return &costHandlerImpl{
 		controller: controller,
+		engine:     engine,
 	}
 }
 
-func (h *costHandlerImpl) Initialize(engine *gin.Engine) {
-	costGroup := engine.Group("/costs")
+func (h *costHandlerImpl) Initialize() {
+	costGroup := h.engine.Group("/costs")
 	{
 		costGroup.POST("", h.controller.CreateCost)
 		costGroup.PUT("/:id", h.controller.UpdateCost)
