@@ -6,14 +6,12 @@ import (
 	"github.com/victor-lima-142/simple-financial-api/database"
 	"github.com/victor-lima-142/simple-financial-api/internal/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 type CostService interface {
 	CreateCost(ctx context.Context, write *models.CostWrite) (*models.CostRead, error)
 	UpdateCost(ctx context.Context, write *models.CostWrite) (*models.CostRead, error)
 	DeleteCost(ctx context.Context, id primitive.ObjectID) error
-	GetCostFromScenario(ctx context.Context, scenarioID primitive.ObjectID) ([]*models.CostRead, error)
 	GetCostByID(ctx context.Context, costID primitive.ObjectID) (*models.CostRead, error)
 }
 
@@ -33,10 +31,6 @@ func (s *costServiceImpl) UpdateCost(ctx context.Context, write *models.CostWrit
 
 func (s *costServiceImpl) DeleteCost(ctx context.Context, id primitive.ObjectID) error {
 	return database.CostRepo.Delete(ctx, id)
-}
-
-func (s *costServiceImpl) GetCostFromScenario(ctx context.Context, scenarioID primitive.ObjectID) ([]*models.CostRead, error) {
-	return database.CostRepo.FindAllBy(ctx, bson.M{"scenario": scenarioID})
 }
 
 func (s *costServiceImpl) GetCostByID(ctx context.Context, costID primitive.ObjectID) (*models.CostRead, error) {

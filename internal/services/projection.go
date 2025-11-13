@@ -12,7 +12,7 @@ type ProjectionService interface {
 	CreateProjection(ctx context.Context, write *models.ProjectionWrite) (*models.ProjectionRead, error)
 	UpdateProjection(ctx context.Context, write *models.ProjectionWrite) (*models.ProjectionRead, error)
 	DeleteProjection(ctx context.Context, id primitive.ObjectID) error
-	GetProjections(ctx context.Context, projectionID primitive.ObjectID) ([]*models.ProjectionRead, error)
+	GetProjections(ctx context.Context) ([]*models.ProjectionRead, error)
 	GetProjectionByID(ctx context.Context, projectionID primitive.ObjectID) (*models.ProjectionRead, error)
 }
 
@@ -34,7 +34,7 @@ func (s *projectionServiceImpl) DeleteProjection(ctx context.Context, id primiti
 	return database.ProjectionRepo.Delete(ctx, id)
 }
 
-func (s *projectionServiceImpl) GetProjections(ctx context.Context, projectionID primitive.ObjectID) ([]*models.ProjectionRead, error) {
+func (s *projectionServiceImpl) GetProjections(ctx context.Context) ([]*models.ProjectionRead, error) {
 	return database.ProjectionRepo.FindAll(ctx)
 }
 
